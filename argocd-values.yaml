@@ -1,0 +1,25 @@
+# server:
+#   service:
+#     type: LoadBalancer
+#   ingress:
+#     enabled: true
+#     annotations:
+#       kubernetes.io/ingress.class: alb
+#     hosts:
+#       - argocd.example.com
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  type: ClusterIP # Change from LoadBalancer to ClusterIP
+  selector:
+    app.kubernetes.io/name: argocd-server
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+    - name: https
+      port: 443
+      targetPort: 8080
