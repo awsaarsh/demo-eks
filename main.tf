@@ -92,3 +92,26 @@ resource "aws_s3_bucket_versioning" "terraform_state" {
     status = "Enabled"
   }
 }
+
+resource "aws_s3_bucket_policy" "terraform_state_policy" {
+  bucket = aws_s3_bucket.terraform_state.id
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = "*",
+        Action = [
+          "s3:ListBucket",
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:DeleteObject"
+        ],
+        Resource = [
+          "arn:aws:s3:::${aws_s3_bucket.terraform_state.id}",
+          "arn:aws:s3:::${aws_s3_bucket.terraform_state.id}/*"
+        ]
+      }
+    ]
+  })
+}
