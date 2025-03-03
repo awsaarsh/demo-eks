@@ -77,3 +77,18 @@ resource "aws_security_group" "custom_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_s3_bucket" "terraform_state" {
+  bucket = "my-terraform-backend"  # Replace with your unique bucket name
+
+  lifecycle {
+    prevent_destroy = true  # Prevent accidental deletion
+  }
+}
+
+resource "aws_s3_bucket_versioning" "terraform_state" {
+  bucket = aws_s3_bucket.terraform_state.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
