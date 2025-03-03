@@ -78,40 +78,36 @@ resource "aws_security_group" "custom_sg" {
   }
 }
 
-resource "aws_s3_bucket" "terraform_state" {
-  bucket = "my-terraform-backend"  # Replace with your unique bucket name
-
-  lifecycle {
-    prevent_destroy = true  # Prevent accidental deletion
-  }
+resource "aws_s3_bucket" "aarsh-testeks" {
+  bucket = "aarsh-testeks"
 }
 
 resource "aws_s3_bucket_versioning" "terraform_state" {
-  bucket = aws_s3_bucket.terraform_state.id
+  bucket = aws_s3_bucket.aarsh-testeks.id
   versioning_configuration {
     status = "Enabled"
   }
 }
 
-resource "aws_s3_bucket_policy" "terraform_state_policy" {
-  bucket = aws_s3_bucket.terraform_state.id
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Principal = "*",
-        Action = [
-          "s3:ListBucket",
-          "s3:GetObject",
-          "s3:PutObject",
-          "s3:DeleteObject"
-        ],
-        Resource = [
-          "arn:aws:s3:::${aws_s3_bucket.terraform_state.id}",
-          "arn:aws:s3:::${aws_s3_bucket.terraform_state.id}/*"
-        ]
-      }
-    ]
-  })
-}
+# resource "aws_s3_bucket_policy" "terraform_state_policy" {
+#   bucket = aws_s3_bucket.terraform_state.id
+#   policy = jsonencode({
+#     Version = "2012-10-17",
+#     Statement = [
+#       {
+#         Effect = "Allow",
+#         Principal = "*",
+#         Action = [
+#           "s3:ListBucket",
+#           "s3:GetObject",
+#           "s3:PutObject",
+#           "s3:DeleteObject"
+#         ],
+#         Resource = [
+#            "arn:aws:s3:::my-terraform-backend",
+#            "arn:aws:s3:::my-terraform-backend/*"
+#         ]
+#       }
+#     ]
+#   })
+# }
