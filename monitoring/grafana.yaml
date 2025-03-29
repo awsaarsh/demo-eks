@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://grafana.github.io/helm-charts
-    targetRevision: 7.0.7
+    targetRevision: 6.59.2
     chart: grafana
   destination:
     server: https://kubernetes.default.svc
